@@ -42,20 +42,22 @@
   SYSCALL(which, arg0, arg1, arg2, arg3, arg4)
 
 int
-copy_from_shared(void* dst, uintptr_t offset, size_t data_len);
+copy_from_shared(void *dst, uintptr_t offset, size_t data_len);
 
 int
 ocall(
-    unsigned long call_id, void* data, size_t data_len, void* return_buffer,
-    size_t return_len);
+        unsigned long call_id, void *data, size_t data_len, void *return_buffer,
+        size_t return_len);
+
 uintptr_t
 untrusted_mmap();
+
 int
-attest_enclave(void* report, void* data, size_t size);
+attest_enclave(void *report, void *data, size_t size);
 
 int
 get_sealing_key(
-    struct sealing_key* sealing_key_struct, size_t sealing_key_struct_size,
-    void* key_ident, size_t key_ident_size);
+        struct sealing_key *sealing_key_struct, size_t sealing_key_struct_size,
+        void *key_ident, size_t key_ident_size);
 
 #endif /* syscall.h */

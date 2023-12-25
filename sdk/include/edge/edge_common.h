@@ -4,6 +4,7 @@
 //------------------------------------------------------------------------------
 #ifndef __EDGE_COMMON_H_
 #define __EDGE_COMMON_H_
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -12,7 +13,7 @@
    so we make it explicit */
 typedef size_t edge_data_offset;
 
-typedef void (*edgecallwrapper)(void*);
+typedef void (*edgecallwrapper)(void *);
 
 #define MAX_EDGE_CALL 10
 
@@ -33,40 +34,41 @@ extern size_t _shared_len;
 
 /* Useful type for things like packaged strings, etc */
 struct edge_data {
-  edge_data_offset offset;
-  size_t size;
+    edge_data_offset offset;
+    size_t size;
 };
 
 struct edge_app_retdata {
-  void* app_ptr;
-  size_t len;
+    void *app_ptr;
+    size_t len;
 };
 
+// 边缘调用返回值
 struct edge_return {
-  /* Status variable indicating error/success conditions. Not for data
-     values. */
-  unsigned long call_status;
+    /* Status variable indicating error/success conditions. Not for data
+       values. */
+    unsigned long call_status;                            // 边缘调用状态（error/success）
 
-  /* OFFSET into the shared memory region.  Should be checked for
-   * validity, then turned into a pointer to a relevant return data
-   * structure for the call. (User/call defined) */
-  edge_data_offset call_ret_offset;
-  size_t call_ret_size;
+    /* OFFSET into the shared memory region.  Should be checked for
+     * validity, then turned into a pointer to a relevant return data
+     * structure for the call. (User/call defined) */
+    edge_data_offset call_ret_offset;                     // 边缘调用返回值在缓存区的偏移量
+    size_t call_ret_size;                                 // 边缘调用返回值所占缓存区的大小
 };
 
 struct edge_call {
-  /* Similar to syscall number.  User-defined call id, handled at the
-   * edges only */
-  unsigned long call_id;
+    /* Similar to syscall number.  User-defined call id, handled at the
+     * edges only */
+    unsigned long call_id;                                // 边缘调用id
 
-  /* OFFSET into the shared memory region.  Should be checked for
-   * validity, then turned into a pointer to a relevant argument
-   * structure for the call. (User/call defined)*/
-  edge_data_offset call_arg_offset;
-  size_t call_arg_size;
+    /* OFFSET into the shared memory region.  Should be checked for
+     * validity, then turned into a pointer to a relevant argument
+     * structure for the call. (User/call defined)*/
+    edge_data_offset call_arg_offset;                     // 边缘调用参数在缓存区的偏移量
+    size_t call_arg_size;                                 // 边缘调用参数所占缓存区的大小
 
-  /* Pre-set location to structure return data */
-  struct edge_return return_data;
+    /* Pre-set location to structure return data */
+    struct edge_return return_data;                       // 边缘调用返回值
 };
 
 #endif /* __EDGE_COMMON_H_ */

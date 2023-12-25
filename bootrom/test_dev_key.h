@@ -1,4 +1,5 @@
 /* These are known device TESTING keys, use them for testing on platforms/qemu */
+/* 测试密钥对 */
 
 #warning Using TEST device root key. No integrity guarantee.
 static const unsigned char _sanctum_dev_secret_key[] = {

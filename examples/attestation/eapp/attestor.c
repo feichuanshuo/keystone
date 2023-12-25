@@ -13,23 +13,32 @@
 
 int
 main() {
-  struct edge_data retdata;
-  ocall(OCALL_GET_STRING, NULL, 0, &retdata, sizeof(struct edge_data));
+    struct edge_data retdata;
+    // 获取Host的随机数nonce
+    ocall(OCALL_GET_STRING, NULL, 0, &retdata, sizeof(struct edge_data));
 
-  for (unsigned long i = 1; i <= 10000; i++) {
-    if (i % 5000 == 0) {
-      ocall(OCALL_PRINT_VALUE, &i, sizeof(unsigned long), 0, 0);
+    for (unsigned long i = 1; i <= 10000; i++) {
+        if (i % 5000 == 0) {
+            ocall(OCALL_PRINT_VALUE, &i, sizeof(unsigned long), 0, 0);
+        }
     }
-  }
 
-  char nonce[2048];
-  if (retdata.size > 2048) retdata.size = 2048;
-  copy_from_shared(nonce, retdata.offset, retdata.size);
+    // 从共享缓冲区中复制nonce到指定的目标地址
+    char nonce[2048];
+    if (retdata.size > 2048) retdata.size = 2048;
+    copy_from_shared(nonce, retdata.offset, retdata.size);
 
-  char buffer[2048];
-  attest_enclave((void*)buffer, nonce, retdata.size);
+    // 生成验证报告
+    char buffer[2048];
 
-  ocall(OCALL_COPY_REPORT, buffer, 2048, 0, 0);
+    /* NOTE 生成验证报告调用路径
+     * attestor.c -> sdk/src/app/syscall.c -> sdk/include/app/syscall.h
+     * -> runtime/call/syscall.c -> runtime/call/sbi.c
+     * -> sm/src/sm-sbi-opensbi.c -> sm/src/sm-sbi.c -> sm/src/enclave.c
+     * */
+    attest_enclave((void *) buffer, nonce, retdata.size);
 
-  EAPP_RETURN(0);
+    ocall(OCALL_COPY_REPORT, buffer, 2048, 0, 0);
+
+    EAPP_RETURN(0);
 }
