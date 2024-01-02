@@ -31,7 +31,7 @@ main() {
     // 生成验证报告
     char buffer[2048];
 
-    /* NOTE 生成验证报告调用路径
+    /*NOTE 生成验证报告调用路径
      * attestor.c -> sdk/src/app/syscall.c -> sdk/include/app/syscall.h
      * -> runtime/call/syscall.c -> runtime/call/sbi.c
      * -> sm/src/sm-sbi-opensbi.c -> sm/src/sm-sbi.c -> sm/src/enclave.c

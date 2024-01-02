@@ -6,6 +6,7 @@
 #define _EAPP_UTILS_
 
 // This is a hacky way of getting the return value into a0, works for now
+// 这是一种将返回值转换为 a0 的笨拙方法，目前有效
 void
 EAPP_RETURN(unsigned long rval) __attribute__((noreturn));
 

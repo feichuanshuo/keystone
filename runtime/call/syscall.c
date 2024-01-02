@@ -66,6 +66,7 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall *syscall_data_ptr, size_
     return *(uintptr_t *) return_ptr;
 }
 
+// 边缘调用
 uintptr_t dispatch_edgecall_ocall(unsigned long call_id,
                                   void *data, size_t data_len,
                                   void *return_buffer, size_t return_len) {
@@ -73,11 +74,13 @@ uintptr_t dispatch_edgecall_ocall(unsigned long call_id,
     uintptr_t ret;
     /* For now we assume by convention that the start of the buffer is
      * the right place to put calls */
+    /* 现在，按照惯例，我们假设缓冲区的开头是进行调用的正确位置 */
     struct edge_call *edge_call = (struct edge_call *) shared_buffer;
 
     /* We encode the call id, copy the argument data into the shared
      * region, calculate the offsets to the argument data, and then
      * dispatch the ocall to host */
+    /* 我们对调用 ID 进行编码，将参数数据复制到共享区域，计算参数数据的偏移量，然后将 ocall 分派给主机 */
 
     edge_call->call_id = call_id;
     uintptr_t buffer_data_start = edge_call_data_ptr();
@@ -85,13 +88,15 @@ uintptr_t dispatch_edgecall_ocall(unsigned long call_id,
     if (data_len > (shared_buffer_size - (buffer_data_start - shared_buffer))) {
         goto ocall_error;
     }
-    //TODO safety check on source
+    // TODO safety check on source
+    // 将数据复制到共享缓冲区
     copy_from_user((void *) buffer_data_start, (void *) data, data_len);
 
     if (edge_call_setup_call(edge_call, (void *) buffer_data_start, data_len) != 0) {
         goto ocall_error;
     }
 
+    // TODO 此函数还没看
     ret = sbi_stop_enclave(1);
 
     if (ret != 0) {
@@ -167,19 +172,28 @@ void handle_syscall(struct encl_ctx *ctx) {
         case (RUNTIME_SYSCALL_EXIT):
             sbi_exit_enclave(arg0);
             break;
+
         case (RUNTIME_SYSCALL_OCALL):
+            /*NOTE 边缘调用
+             * arg0: call_id
+             * arg1: data
+             * arg2: data_len
+             * arg3: return_buffer
+             * arg4: return_len
+             * */
             ret = dispatch_edgecall_ocall(arg0, (void *) arg1, arg2, (void *) arg3, arg4);
             break;
         case (RUNTIME_SYSCALL_SHAREDCOPY):
             ret = handle_copy_from_shared((void *) arg0, arg1, arg2);
             break;
-        /* NOTE 生成验证报告
-         * n: 1003
-         * arg0: report
-         * arg1: data
-         * arg2: size
-         */
         case (RUNTIME_SYSCALL_ATTEST_ENCLAVE):;
+            /*NOTE 生成验证报告
+             * n: 1003
+             * arg0: report
+             * arg1: data
+             * arg2: size
+             */
+
             // 将随机数复制到缓冲区
             copy_from_user((void *) rt_copy_buffer_2, (void *) arg1, arg2);
 
