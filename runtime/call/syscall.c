@@ -285,6 +285,7 @@ void handle_syscall(struct encl_ctx *ctx) {
               break;
 #endif /* USE_LINUX_SYSCALL */
 
+//TODO 数据获取可能会用到
 #ifdef USE_IO_SYSCALL
             case(SYS_read):
               ret = io_syscall_read((int)arg0, (void*)arg1, (size_t)arg2);
