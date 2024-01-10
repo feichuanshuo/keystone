@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "sealing.h"
+#include "../edge/syscall.h"
 /* TODO We should be syncing these more explictly with the runtime
    defs */
 #define SYSCALL_OCALL 1001
@@ -59,5 +60,9 @@ int
 get_sealing_key(
         struct sealing_key *sealing_key_struct, size_t sealing_key_struct_size,
         void *key_ident, size_t key_ident_size);
+
+// FIXME 尝试自定义读取文件
+int
+sys_read(int fd, void *buf, size_t len);
 
 #endif /* syscall.h */

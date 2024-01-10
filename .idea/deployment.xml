@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="ubuntu (a2e130e3-263b-4e64-8f13-c7f559a57261)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.PlOm2dHdNA" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

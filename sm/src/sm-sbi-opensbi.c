@@ -48,12 +48,12 @@ static int sbi_ecall_keystone_enclave_handler(unsigned long extid, unsigned long
             *out_val = sbi_sm_random();
             retval = 0;
             break;
-        /* NOTE 生成验证报告
-         * regs->a0: report
-         * regs->a1: nonce
-         * regs->a2: nonce_size
-         * */
         case SBI_SM_ATTEST_ENCLAVE:
+            /*NOTE 生成验证报告
+             * regs->a0: report
+             * regs->a1: nonce
+             * regs->a2: nonce_size
+             * */
             retval = sbi_sm_attest_enclave(regs->a0, regs->a1, regs->a2);
             break;
         case SBI_SM_GET_SEALING_KEY:

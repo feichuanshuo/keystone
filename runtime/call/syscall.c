@@ -34,6 +34,8 @@ uintptr_t dispatch_edgecall_syscall(struct edge_syscall *syscall_data_ptr, size_
     // Syscall data should already be at the edge_call_data section
     /* For now we assume by convention that the start of the buffer is
      * the right place to put calls */
+    // FIXME 尝试自定义读取文件
+    printf("sys_read--->runtime执行！");
     struct edge_call *edge_call = (struct edge_call *) shared_buffer;
 
     edge_call->call_id = EDGECALL_SYSCALL;

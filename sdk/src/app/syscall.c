@@ -35,3 +35,9 @@ get_sealing_key(
             SYSCALL_GET_SEALING_KEY, sealing_key_struct, sealing_key_struct_size,
             key_ident, key_ident_size);
 }
+
+// FIXME 尝试自定义读取文件
+int
+sys_read(int fd, void *buf, size_t len) {
+    return SYSCALL_3(SYS_read, fd, buf, len);
+}

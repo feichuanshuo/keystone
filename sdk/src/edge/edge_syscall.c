@@ -22,6 +22,9 @@ incoming_syscall(struct edge_call *edge_call) {
 
     edge_call->return_data.call_status = CALL_STATUS_OK;
 
+    // FIXME 尝试自定义读取文件
+    printf("sys_read--->sdk执行！\n");
+
     int64_t ret;
     int is_str_ret = 0;
     char *retbuf;
@@ -67,7 +70,7 @@ incoming_syscall(struct edge_call *edge_call) {
             sargs_SYS_write *write_args = (sargs_SYS_write *) syscall_info->data;
             ret = write(write_args->fd, write_args->buf, write_args->len);
             break;
-        case (SYS_read):;
+        case (SYS_read):
             sargs_SYS_read *read_args = (sargs_SYS_read *) syscall_info->data;
             ret = read(read_args->fd, read_args->buf, read_args->len);
             break;

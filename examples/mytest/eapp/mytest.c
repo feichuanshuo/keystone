@@ -10,21 +10,12 @@
 void get_process_code_range(int pid, unsigned long *start_code, unsigned long *end_code);
 
 int main() {
-    // 获取当前进程的ID
-//    pid_t process_id = getpid();
-
-    /*unsigned long start_code, end_code;
 
 
-    // 获取进程的start_code和end_code
-    get_process_code_range(process_id, &start_code, &end_code);
+//    ocall(OCALL_GET_PROCESS_INFORMATION, NULL, 0, NULL, 0);
 
-    printf("当前进程的进程ID是: %d\n", process_id);
-    printf("start_code: %lx\n", start_code);
-    printf("end_code: %lx\n", end_code);*/
-
-    ocall(OCALL_GET_PROCESS_INFORMATION, NULL, 0, NULL, 0);
-
+    // FIXME 尝试自定义读取文件
+    sys_read(0, NULL, 0);
     // 强制刷新标准输出缓冲区
     fflush(stdout);
     EAPP_RETURN(0);
