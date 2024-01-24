@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "sealing.h"
-#include "../edge/syscall.h"
+#include "edge/syscall_nums.h"
 /* TODO We should be syncing these more explictly with the runtime
    defs */
 #define SYSCALL_OCALL 1001
