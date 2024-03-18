@@ -1,31 +1,66 @@
-# Keystone: An Open-Source Secure Enclave Framework for RISC-V Processors
+# KTSensing：一个基于Keystone的可信感知系统
 
-![Documentation Status](https://readthedocs.org/projects/keystone-enclave/badge/)
-[![Build Status](https://travis-ci.org/keystone-enclave/keystone.svg?branch=master)](https://travis-ci.org/keystone-enclave/keystone/)
+## 说明
 
-Visit [Project Website](https://keystone-enclave.org) for more information.
+项目环境为 Ubuntu 22.04.2 LTS
+目前只在qemu中完成相关测试
 
-`master` branch is for public releases.
-`dev` branch is for development use (up-to-date but may not fully documented until merged into `master`).
+## 项目进度
 
-# Documentation
+- [X] 完成基础环境的搭建
+- [ ] 为qemu添加传感器外设
+- [ ] 构建可信身份和信任根
+- [ ] 实现数据感知功能
 
-See [docs](http://docs.keystone-enclave.org) for getting started.
+## 如何启动
 
-# Contributing
-
-See CONTRIBUTING.md
-
-# Citation
-
-If you want to cite the project, please use the following bibtex:
+**克隆项目**
 
 ```
-@inproceedings{lee2019keystone,
-    title={Keystone: An Open Framework for Architecting Trusted Execution Environments},
-    author={Dayeol Lee and David Kohlbrenner and Shweta Shinde and Krste Asanovic and Dawn Song},
-    year={2020},
-    booktitle = {Proceedings of the Fifteenth European Conference on Computer Systems},
-    series = {EuroSys’20}
-}
+git clone --recurse-submodules https://github.com/keystone-enclave/keystone.git
+```
+
+**安装所需包**
+
+```
+sudo apt update
+sudo apt install autoconf automake autotools-dev bc \
+bison build-essential curl expat jq libexpat1-dev flex gawk gcc git \
+gperf libgmp-dev libmpc-dev libmpfr-dev libtool texinfo tmux \
+patchutils zlib1g-dev wget bzip2 patch vim-common lbzip2 python3 \
+pkg-config libglib2.0-dev libpixman-1-dev libssl-dev screen \
+device-tree-compiler expect makeself unzip cpio rsync cmake ninja-build p7zip-full
+```
+
+**构建所用组件**
+
+```
+cd keystone
+make -j$(nproc)
+```
+
+**启动qemu**
+
+```
+make run
+```
+
+**登录**
+
+```
+账户：root
+密码：sifive
+```
+
+**在qemu中启动keystone**
+
+```
+modprobe keystone-driver
+```
+
+**运行感知程序**
+
+```
+cd /usr/share/keystone/examples
+./sensing.ko
 ```
